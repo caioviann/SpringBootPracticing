@@ -1,9 +1,12 @@
 package br.com.caio.spring_boot_essentials.controller;
 
+import br.com.caio.spring_boot_essentials.database.model.AvaliacoesFisicasEntity;
 import br.com.caio.spring_boot_essentials.dto.AlunoDto;
 import br.com.caio.spring_boot_essentials.exception.BadRequestException;
+import br.com.caio.spring_boot_essentials.exception.NotFoundException;
 import br.com.caio.spring_boot_essentials.service.AlunoService;
 import jakarta.validation.Valid;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -22,6 +25,11 @@ public class AlunosController {
     @ResponseStatus(HttpStatus.CREATED)
     public void criarAluno(@Valid @RequestBody AlunoDto alunoDto) throws BadRequestException {
         alunoService.criarAluno(alunoDto);
+    }
+
+    @GetMapping("/{alunoId}/avaliacao")
+    public AvaliacoesFisicasEntity getAvaliacaoFisica(@PathVariable Integer alunoId) throws NotFoundException {
+        return alunoService.getAlunoAvaliacoes(alunoId);
     }
 
 }
